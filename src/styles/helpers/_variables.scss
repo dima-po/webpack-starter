@@ -1,0 +1,61 @@
+// Fonts
+$main-font              : "Open Sans", "Arial", "Helvetica", sans-serif;
+$headers-font           : "Gilroy Bold", "Arial", "Helvetica", sans-serif;
+
+$main-light-font        : "Open Sans Light", "Arial", "Helvetica", sans-serif;
+$headers-light-font     : "Gilroy Light", "Arial", "Helvetica", sans-serif;
+
+
+// Size
+$basic-width             : 1200px;
+$main-font-color         : #101010;
+$base-font-size          : 18px;
+$base-line-height        : 1.5;
+
+// Responsive sizes
+$desktop-width           : 1280px;
+$sm-desktop-width        : 980px;
+$table-width             : 768px;
+$phone-width             : 480px;
+$sm-phone-width          : 320px;
+
+// Main color
+$default-color           : #ffffff;
+$primary-color           : #444ce0;
+$success-color           : #26de81;
+$danger-color            : #fc5c65;
+$warning-color           : #fed330;
+$light-color             : #999999;
+$purple-color            : #8854d0;
+
+// Neutral Color
+$neutral-primary         : #303133;
+$neutral-regular         : #606266;
+$neutral-secondary       : #909399;
+$neutral-placeholder     : #C0C4CC;
+
+// Border Color
+$border-base             : #DCDFE6;
+$border-light            : #E4E7ED;
+$border-lighter          : #EBEEF5;
+$border-lightex          : #F2F6FC;
+
+
+$breakpoints: (
+    "phone":        400px,
+    "phone-wide":   480px,
+    "phablet":      560px,
+    "tablet-small": 640px,
+    "tablet":       768px,
+    "tablet-wide":  1024px,
+    "desktop":      1248px,
+    "desktop-wide": 1440px
+);
+
+$z-indexes: (
+    "outdated-browser",
+    "modal",
+    "site-header",
+    "page-wrapper",
+    "site-footer"
+);

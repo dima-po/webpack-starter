@@ -1,0 +1,172 @@
+@mixin font-face($name, $file, $weight) {
+    @font-face {
+        font-family: "#{$name}";
+        src:    url("../fonts/#{$file}.woff2") format("woff2"),
+                url("../fonts/#{$file}.woff") format("woff");
+        font-weight: #{weight};
+    }
+ }
+
+// @include mq('tablet-wide')
+// A massive time saver! You can just use pixel values but we have some default breakpoints setup that work too, 
+// another time saver while keeping your breakpoints consistent.
+
+@mixin mq($width, $type: min) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @content;
+        }
+    }
+}
+
+// Adding Truncation to an element isn't as simple as it should be, although it is with this handy time saver, 
+// meaning when you include the mixin, you only have to specify your boundry with a max width value, happy days!
+
+@mixin truncate($truncation-boundary) {
+    max-width: $truncation-boundary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@mixin google-font($family) {
+    @import url("http://fonts.googleapis.com/css?family=#{$family}");
+}
+
+@mixin hide-visually {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+@mixin text-hide {
+    font: "0/0" a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+}
+
+@mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@mixin position-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@mixin block-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+// When using ::before and ::after you'll always need these three, so we're saving two lines of code every time you use this.
+// div::after {
+//     @include pseudo;
+//     top: -1rem; left: -1rem;
+//     width: 1rem; height: 1rem;
+// }
+
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+    content: $content;
+    display: $display;
+    position: $pos;
+}
+
+// We use this for creating scalable elements (usually images / background images) that maintain a ratio.
+//  @include responsive-ratio(16,9);
+@mixin responsive-ratio($x,$y, $pseudo: false) {
+    $padding: unquote( ( $y / $x ) * 100 + '%' );
+    @if $pseudo {
+        &::before {
+            @include pseudo($pos: relative);
+            width: 100%;
+            padding-top: $padding;
+        }
+    } @else {
+        padding-top: $padding;
+    }
+}
+
+// This mixin takes all the hassle out of creating that triangle you'll see coming out of most traditional tooltips,
+// all without images, you just specify it's colour, how big you want it, the direction it's going to come out of your element and you're done!
+
+@mixin css-triangle($color, $direction, $size: 6px, $position: absolute, $round: false){
+    @include pseudo($pos: $position);
+    width: 0;
+    height: 0;
+    @if $round {
+        border-radius: 3px;
+    }
+    @if $direction == down {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-top: $size solid $color;
+        margin-top: 0 - round( $size / 2.5 );
+    } @else if $direction == up {
+        border-left: $size solid transparent;
+        border-right: $size solid transparent;
+        border-bottom: $size solid $color;
+        margin-bottom: 0 - round( $size / 2.5 );
+    } @else if $direction == right {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-left: $size solid $color;
+        margin-right: -$size;
+    } @else if  $direction == left {
+        border-top: $size solid transparent;
+        border-bottom: $size solid transparent;
+        border-right: $size solid $color;
+        margin-left: -$size;
+    }
+}
+
+@mixin triangle ($width: 16px, $direction: "right", $color: #333333) {
+    
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    
+    @if $direction == "up" {
+		border-left: $width / 2 solid transparent;
+		border-right: $width / 2 solid transparent;	
+		border-bottom: $width / 2 solid $color;
+	} @else if $direction == "left" {
+		border-top: $width / 2 solid transparent;
+		border-bottom: $width / 2 solid transparent; 
+		border-right: $width / 2 solid $color; 
+	} @else if $direction == "right" {
+		border-top: $width / 2 solid transparent;
+		border-bottom: $width / 2 solid transparent;		
+		border-left: $width / 2 solid $color;
+	} @else if $direction == "down" {
+		border-left: $width / 2 solid transparent;
+		border-right: $width / 2 solid transparent;		
+		border-top: $width / 2 solid $color;
+    }
+    @else {
+        @warn "Что-то пошло не так :) Проверьте правильность параметров"
+    }
+}
