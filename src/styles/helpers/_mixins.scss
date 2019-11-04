@@ -1,8 +1,8 @@
 @mixin font-face($name, $file, $weight) {
     @font-face {
         font-family: "#{$name}";
-        src:    url("../fonts/#{$file}.woff2") format("woff2"),
-                url("../fonts/#{$file}.woff") format("woff");
+        src:    url("../../assets/fonts/#{$name}.woff2") format("woff2"),
+                url("../../assets/fonts/#{$name}.woff") format("woff");
         font-weight: #{weight};
     }
  }
