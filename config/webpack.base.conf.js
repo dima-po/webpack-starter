@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const glob = require('glob')
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -7,7 +8,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
 // Main const
-// see more: https://github.com/vedees/webpack-template/blob/master/README.md#main-const
 const PATHS = {
   src: path.join(__dirname, '../src'),
   dist: path.join(__dirname, '../dist'),
@@ -15,7 +15,6 @@ const PATHS = {
 }
 
 // Pages const for HtmlWebpackPlugin
-// see more: https://github.com/vedees/webpack-template/blob/master/README.md#html-dir-folder
 // const PAGES_DIR = PATHS.src
 const PAGES_DIR = `${PATHS.src}/views/pages/`
 const PAGES = fs.readdirSync(PAGES_DIR).filter(fileName => fileName.endsWith('.pug'))
@@ -27,10 +26,10 @@ module.exports = {
   },
   entry: {
     app: PATHS.src,
-    // module: `${PATHS.src}/your-module.js`,
+    modules: glob.sync(`${PATHS.src}/views/modules/**/*.js`), // Entry point to concat all .js files from views/modules folder
+    // modules_css: glob.sync(`${PATHS.src}/views/modules/**/*.scss`)
   },
   output: {
-    // filename: `${PATHS.assets}/js/[name].[hash].js`,
     filename: 'js/[name].[hash:5].js',
     path: PATHS.dist,
     publicPath: '/'
@@ -91,23 +90,6 @@ module.exports = {
         name: '[name].[ext]'
       }
     }
-    // {
-    //   test: /\.s[ac]ss$/,
-    //   use: [
-    //     'style-loader',
-    //     MiniCssExtractPlugin.loader,
-    //     {
-    //       loader: 'css-loader',
-    //       options: { sourceMap: true }
-    //     }, {
-    //       loader: 'postcss-loader',
-    //       options: { sourceMap: true, config: { path: `./postcss.config.js` } }
-    //     }, {
-    //       loader: 'sass-loader',
-    //       options: { sourceMap: true }
-    //     }
-    //   ]
-    // }
   ]},
   resolve: {
     alias: {
@@ -142,7 +124,6 @@ module.exports = {
         }
       }),
     new MiniCssExtractPlugin({
-      // filename: `${PATHS.assets}/css/[name].[hash].css`,
       filename: 'css/[name].[hash:5].css',
     }),
     new CopyWebpackPlugin([
