@@ -1,4 +1,4 @@
 По сборке
     ✔ Научить webpack собирать все js файлы с папки views/modules/*.js в один modules.js @done(19-11-04 16:47)
-    ☐ Научить webpack собирать все scss файлы с папки views/modules/*.scss в один modules.scss
+    ✔ Научить webpack собирать все scss файлы с папки views/modules/*.scss в один modules.scss @done(19-11-07 19:21)
     ☐ Минификация изображений

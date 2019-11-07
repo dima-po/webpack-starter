@@ -1,0 +1,13 @@
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    background-color: #000;
+
+    @media screen and (min-width: $sm-desktop-width) {
+        background-color: red;
+    }
+}
