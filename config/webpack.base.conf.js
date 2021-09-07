@@ -27,11 +27,10 @@ module.exports = {
   entry: {
     app: PATHS.src,
     modules: glob.sync(`${PATHS.src}/views/modules/**/*.js`), // Entry point to concat all .js files from views/modules folder
-    // modules_css: glob.sync(`${PATHS.src}/views/modules/**/*.scss`)
   },
   output: {
-    filename: 'js/[name].[hash:5].js',
     path: PATHS.dist,
+    filename: 'js/[name].[fullhash:5].min.js',
     publicPath: '/'
   },
   optimization: {
@@ -46,6 +45,7 @@ module.exports = {
       }
     }
   },
+  
   module: {
     rules: [{
       test: /\.pug$/,
@@ -97,6 +97,7 @@ module.exports = {
       "%blocks%": `${PATHS.src}/views/modules`
     }
   },
+
   plugins: [
     new VueLoaderPlugin(),
     new SVGSpritemapPlugin(
@@ -124,20 +125,23 @@ module.exports = {
         }
       }),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash:5].css',
+      filename: 'css/[name].[fullhash:5].min.css'
     }),
-    new CopyWebpackPlugin([
-      { from: `${PATHS.src}/${PATHS.assets}/img`, to: 'img' },
-      { from: `${PATHS.src}/${PATHS.assets}/fonts`, to: 'fonts' },
-      { from: `${PATHS.src}/static`, to: '' },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: `${PATHS.src}/${PATHS.assets}/img`, to: 'img' },
+        { from: `${PATHS.src}/${PATHS.assets}/fonts`, to: 'fonts' },
+        { from: `${PATHS.src}/static`, to: '' },
+      ]
+    }),
 
     // Automatic creation any html pages (Don't forget to RERUN dev server)
     // see more: https://github.com/vedees/webpack-template/blob/master/README.md#create-another-html-files
     // best way to create pages: https://github.com/vedees/webpack-template/blob/master/README.md#third-method-best
     ...PAGES.map(page => new HtmlWebpackPlugin({
       template: `${PAGES_DIR}/${page}`,
-      filename: `./${page.replace(/\.pug/,'.html')}`
+      filename: `./${page.replace(/\.pug/,'.html')}`,
+      inject: 'body'
     }))
   ],
 }

@@ -1,26 +1,30 @@
 const webpack =  require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 
+// DEV config
 const devWebpackConfig = merge(baseWebpackConfig, {
-  // DEV config
   mode: 'development',
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval-cheap-source-map',
+  stats: 'minimal',
   devServer: {
-    contentBase: baseWebpackConfig.externals.paths.dist,
+    static: {
+      directory: baseWebpackConfig.externals.paths.dist
+    },
     port: 4000,
-    stats: 'minimal',
-    overlay: {
-      warnings: true,
-      errors: true
+    client: {
+      overlay: {
+        warnings: true,
+        errors: true
+      }
     }
   },
   module: {
     rules: [{
       test: /\.s[ac]ss$/,
       use: [
-        'style-loader',
+        // 'style-loader',
         {
           loader: MiniCssExtractPlugin.loader,
           options: { publicPath: '../' }

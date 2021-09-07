@@ -1,7 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ImageminPlugin = require('imagemin-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 
 const buildWebpackConfig = merge(baseWebpackConfig, {
@@ -11,7 +11,7 @@ const buildWebpackConfig = merge(baseWebpackConfig, {
     rules: [{
       test: /\.s[ac]ss$/,
       use: [
-        'style-loader',
+        // 'style-loader',
         {
           loader: MiniCssExtractPlugin.loader,
           options: { publicPath: '../' }
@@ -19,10 +19,15 @@ const buildWebpackConfig = merge(baseWebpackConfig, {
         {
           loader: 'css-loader',
           options: { sourceMap: true }
-        }, {
+        },
+        {
           loader: 'postcss-loader',
-          options: { sourceMap: true, config: { path: `./postcss.config.js` } }
-        }, {
+          options: {
+            sourceMap: true,
+            postcssOptions: { config: './postcss.config.js' }
+          }, 
+        },
+        {
           loader: 'sass-loader',
           options: { sourceMap: true }
         }
