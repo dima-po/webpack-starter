@@ -31,7 +31,7 @@ module.exports = {
   output: {
     path: PATHS.dist,
     filename: 'js/[name].[fullhash:5].min.js',
-    publicPath: '/'
+    publicPath: ''
   },
   optimization: {
     splitChunks: {
